@@ -1,0 +1,129 @@
+<html>
+<head>
+<style> 
+    input{
+        width:65px;
+        height:50px;
+        font-size:20px;
+        margin:5px;
+    }
+    .t1{
+        width:97%;
+        text-align:right;
+    }   
+    table{
+        border:2px solid #0d0707;
+    }
+</style>
+<title>Calculator</title>
+</head>
+<body>
+<p style="margin-top: 75px; " align="center"><font size="10">Basic Calculator</font></p>
+<br>
+<form style="margin-top: 75px;">
+<table align="center">
+<tr>
+<td>
+<input type="text" name="Input" class="t1" disabled>
+</td>
+</tr>
+<tr>
+<td>
+<input type="button" value="1" onclick="appendNumber('1')">
+<input type="button" value="2" onclick="appendNumber('2')">
+<input type="button" value="3" onclick="appendNumber('3')">
+<input type="button" value="+" onclick="setOperator('+')">
+<input type="button" value="Del" onclick="deleteLastChar()">
+<br>
+<input type="button" value="4" onclick="appendNumber('4')">
+<input type="button" value="5" onclick="appendNumber('5')">
+<input type="button" value="6" onclick="appendNumber('6')">
+<input type="button" value="-" onclick="setOperator('-')">
+<input type="button" value="x^2" onclick="square()">
+<br>
+<input type="button" value="7" onclick="appendNumber('7')">
+<input type="button" value="8" onclick="appendNumber('8')">
+<input type="button" value="9" onclick="appendNumber('9')">
+<input type="button" value="x" onclick="setOperator('*')">
+<input type="button" value="x^3" onclick="cube()">
+<br>
+<input type="button" value="Clear" onclick="clearInput()">
+<input type="button" value="0" onclick="appendNumber('0')">
+<input type="button" value="=" onclick="calculate()">
+<input type="button" value="/" onclick="setOperator('/')">
+<input type="button" value="Sqrt" onclick="squareRoot()">
+</td>
+</tr>
+</table>
+</form>
+
+<script>
+    let input = document.querySelector('[name="Input"]');
+    let operator = '';
+    let previousValue = '';
+
+    function appendNumber(number) {
+        input.value += number;
+    }
+
+    function setOperator(op) {
+        operator = op;
+        previousValue = input.value;
+        input.value = previousValue + ' ' + operator;
+    }
+
+    function clearInput() {
+        input.value = '';
+        operator = '';
+        previousValue = '';
+    }
+
+    function deleteLastChar() {
+        input.value = input.value.slice(0, -1);
+    }
+
+    function square() {
+        let currentValue = parseFloat(input.value);
+        if (!isNaN(currentValue)) {
+            input.value = currentValue * currentValue;
+        }
+    }
+
+    function cube() {
+        let currentValue = parseFloat(input.value);
+        if (!isNaN(currentValue)) {
+            input.value = currentValue * currentValue * currentValue;
+        }
+    }
+
+    function squareRoot() {
+        let currentValue = parseFloat(input.value);
+        if (!isNaN(currentValue) && currentValue >= 0) {
+            input.value = Math.sqrt(currentValue);
+        } else {
+            alert("Error: Invalid input for square root");
+        }
+    }
+
+    function calculate() {
+        let currentValue = parseFloat(input.value.split(' ')[1]);
+        if (operator === '+') {
+            input.value = parseFloat(previousValue) + currentValue;
+        } else if (operator === '-') {
+            input.value = parseFloat(previousValue) - currentValue;
+        } else if (operator === '*') {
+            input.value = parseFloat(previousValue) * currentValue;
+        } else if (operator === '/') {
+            if (currentValue !== 0) {
+                input.value = parseFloat(previousValue) / currentValue;
+            } else {
+                alert("Error: Division by zero");
+            }
+        }
+        operator = '';
+        previousValue = '';
+    }
+</script>
+
+</body>
+</html>
